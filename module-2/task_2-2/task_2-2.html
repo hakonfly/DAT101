@@ -12,33 +12,31 @@
     <ol>
       <li>Where should you use constants, and where should you use variables? Can they all be constants?</li>
       <p>
-				[Replace this with you answer]
-			</p>
+Use const for values that should not change (conversion factors, fixed rates, fixed input values). Use let when a value must be reassigned during the program (counters, remainders, accumulators). Many things can be const, but not everything—whenever you need to update/reassign the value, you must use let.</p>
       <li>How do parentheses affect the arithmetic outcome of an expression?</li>
       <p>
-				[Replace this with you answer]
+				Parentheses change the order of evaluation by forcing what's inside to be calculated first. This can change the result compared to normal operator precedence (multiplication/division before addition/subtraction).
 			</p>
       <li>How do we limit floating-point numbers to a given number of decimals?</li>
       <p>
-				[Replace this with you answer]
+				Use number.toFixed(n) to format a number with n decimals (note: it returns a string). Alternatively, use rounding math like Math.round(num * 10**n) / 10**n.
 			</p>
       <li>How can we compare two floating-point values to see if they are equal (is 12.199999 the same as 12.2)?</li>
       <p>
-				[Replace this with you answer]
+				Avoid direct equality for floats due to precision issues. Compare with a tolerance: Math.abs(a - b) < epsilon (e.g. Number.EPSILON or a small value like 1e-9), or compare rounded values (e.g. both to 2 decimals).
 			</p>
       <li>What do comparison operators return, and how can we check if they are FALSE or TRUE?</li>
       <p>
-				[Replace this with you answer]
+				Comparison operators return boolean values: true or false. You can store the result in a variable (e.g. const isGreater = a > b) and check it with if (isGreater) or compare strictly with === true/false when needed.
 			</p>
       <li>How does the Math.random() function work, and what can it be used for?</li>
       <p>
-				[Replace this with you answer]
+				Math.random() returns a pseudo-random number in the range [0, 1). To get a number in a range, scale and shift: Math.floor(Math.random() * (max - min + 1)) + min. It's used for dice rolls, random IDs, random angles, sampling, etc.]
 			</p>
       <li>What is modulus (%), and when do we need this operator in mathematical operations?</li>
       <p>
-				[Replace this with you answer]
+				The modulus operator gives the remainder after division. It's useful for checking even/odd (n % 2), wrapping values, and converting units like days to weeks and days (days / 7 and days % 7).
 			</p>
     </ol>
-		<script type="module" src="./task_2-2.mjs" defer></script>
-  </body>
+<script type="module" src="./task_2-2.mjs" defer></script>>  </body>
 </html>
