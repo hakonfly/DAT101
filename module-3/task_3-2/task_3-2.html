@@ -8,10 +8,35 @@
     <h2><label for="txtOut">Output from Task 3.2:</label></h2>
     <div style="padding: 10px; min-width: 512px; border: darkblue thin solid; background-color: antiquewhite; font-family: 'Courier New', serif">
       <span id="txtOut" style="white-space: nowrap"></span>
-    </div>
     <ol>
-      <li>[Write the question here, and copy this for more questions]</li>
-      <p>[Write your answer here, and copy this for more answers]</p>
+  <li>
+    In part 1, is it possible to solve the problem using a single "for" loop?
+    <p>
+      Yes. You can run one for-loop from 1 to 10 and build two output strings at the same time: one string appends i (1..10) and the other appends (11 - i) (10..1). After the loop finishes, print the two strings on two lines. However, using two separate for-loops is usually clearer and easier to read.
+    </p>
+  </li>
+
+  <li>
+    In part 2, can we create what is known as an "infinite" loop within the condition of the "while" loop? Describe what would or would not be necessary to achieve this. Provide a thorough explanation of your answer.
+    <p>
+      Yes. A while-loop becomes "infinite" when its condition never becomes false (for example: <code>while (true)</code>) and there is no <code>break</code>, <code>return</code>, or error that stops it. It can also happen by mistake if the condition depends on a variable that is never updated inside the loop (e.g., the guessed number is never changed). To avoid infinite loops, you must update the state that affects the condition (or include a safe exit like a maximum attempts limit or a break when a goal is reached).
+    </p>
+  </li>
+
+  <li>
+    Discuss briefly how quickly or slowly a computer might be able to compute this, considering the number of guesses and the time it takes. How does the program behave while it is guessing? Can the program perform other tasks concurrently?
+    <p>
+      If the program guesses randomly, the expected number of guesses grows with the size of the range (for 1 to 1,000,000 the expected guesses is about 1,000,000). Modern computers can run millions of iterations quickly, but it can still take noticeable time depending on the device and environment. In normal JavaScript (single-threaded), the loop runs synchronously and will "block" the main thread while guessing—meaning the page/app cannot handle UI updates or other tasks at the same time. True concurrency would require yielding control (e.g., timers/async breaks) or using a Web Worker.
+    </p>
+  </li>
+
+  <li>
+    Explain the relationship between rows and columns in nested "for" loops. Can we, for instance, change the order, considering rows to be innermost or columns to be innermost, or does this not matter?
+    <p>
+      In nested loops, the outer loop usually represents rows and the inner loop represents columns because the inner loop completes all columns for one row before moving to the next row. You can swap them, but it changes how the output is grouped: you would effectively iterate "column-first" instead of "row-first" unless you also change where you print line breaks. So the order does matter for the structure/formatting of the output, even though both versions still visit all row/column combinations.
+    </p>
+  </li>
+</ol>
     </ol>
     <script type="module" src="./task_3-2.mjs" defer></script>
   </body>
