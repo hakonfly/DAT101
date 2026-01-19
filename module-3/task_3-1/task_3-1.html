@@ -10,14 +10,34 @@
       <span id="txtOut" style="white-space: nowrap"></span>
     </div>
     <ol>
-      <li>Discuss the behavior of part 1, What happens when the wake-up time is not 7 and what happens when it is exactly 7?</li>
-      <p>When wakeUpTime is not 7, the condition is false, so the code inside the if-block does not run (no bus message is printed). When wakeUpTime is exactly 7, the condition is true and the bus message is printed.</p>
-      <li>Same as question #1. How ever the answer should now be different. Discuss the behavior of part 2, What happens when the wake-up time is not 7 and what happens when it is exactly 7?</li>
-      <p>With if/else, you always get an outcome. If wakeUpTime is exactly 7, the "bus" branch runs. Otherwise (any other value), the "car" branch runs.</p>
-      <li>Discuss the behavior of part 3, what happens when wake time is less than 7 or greater than 8?</li>
-      <p>This uses if / else if / else. Exactly 7 gives the bus, exactly 8 gives the train. If wakeUpTime is less than 7 or greater than 8 (or any other value), it falls through to the else-branch (car).With if/else, you always get an outcome. If wakeUpTime is exactly 7, the "bus" branch runs. Otherwise (any other value), the "car" branch runs.th you answer]</p>
-      <li>Discuss the behavior for part 4, what happens if the number is exactly 0, is zero positive or negative?</li>
-    </ol>
+  <li>
+    Discuss the behavior of part 1, What happens when the wake-up time is not 7 and what happens when it is exactly 7?
+    <p>
+      When wakeUpTime is not 7, the condition (wakeUpTime === 7) is false, so the if-block does not run. When wakeUpTime is exactly 7, the condition is true and the message about taking the bus is printed.
+    </p>
+  </li>
+
+  <li>
+    Same as question #1. However the answer should now be different. Discuss the behavior of part 2, What happens when the wake-up time is not 7 and what happens when it is exactly 7?
+    <p>
+      With if/else there is always an outcome. If wakeUpTime is 7, the "bus" branch runs. Otherwise (any other value), the "car" branch runs.
+    </p>
+  </li>
+
+  <li>
+    Discuss the behavior of part 3, what happens when wake time is less than 7 or greater than 8?
+    <p>
+      With if / else if / else: exactly 7 gives the bus, exactly 8 gives the train. If wakeUpTime is less than 7 or greater than 8, neither condition matches, so it falls to the else-case (car).
+    </p>
+  </li>
+
+  <li>
+    Discuss the behavior for part 4, what happens if the number is exactly 0, is zero positive or negative?
+    <p>
+      In part 4, if the code is written as "if number &lt; 0 then Negative else Positive", the value 0 goes to the else-branch and is treated as Positive. Mathematically, 0 is neither positive nor negative, which is why part 5 adds a separate check for Zero.
+    </p>
+  </li>
+</ol>
         <script type="module" src="./task_3-1.mjs" defer></script>
 </body>
 </html>
