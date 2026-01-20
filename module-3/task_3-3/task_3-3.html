@@ -10,9 +10,34 @@
       <span id="txtOut" style="white-space: nowrap"></span>
     </div>
     <ol>
-      <li>[Write the question here, and copy this for more questions]</li>
-      <p>[Write your answer here, and copy this for more answers]</p>
-    </ol>
+  <li>What is the difference between invoking and creating a function?
+    <p>Creating a function means defining it (giving it a name, parameters, and a code block). Invoking a function means calling it so the code runs (e.g., myFunction()).</p>
+  </li>
+
+  <li>Explain the syntax regarding semicolons and code blocks.
+    <p>Semicolons usually terminate statements (let x = 5;). Code blocks use curly braces { } to group multiple statements (for functions, if/else, loops). A function declaration does not need a semicolon, but a function expression assigned to a variable typically does (const f = () => {};).</p>
+  </li>
+
+  <li>What happens when we try to store values from a function when it doesn't return any?
+    <p>If a function has no return statement, it returns undefined. So assigning it to a variable gives undefined, even if the function prints output or performs side effects.</p>
+  </li>
+
+  <li>How do we separate parameters from each other when creating a function?
+    <p>Parameters are separated by commas inside the parentheses in the function definition, e.g., function f(a, b, c) { ... }.</p>
+  </li>
+
+  <li>Explain how parameter names are related during the invocation and creation of a function.
+    <p>During invocation, argument values are mapped to parameters by position (order), not by name. The parameter names exist only inside the function body; the caller can use any variable names.</p>
+  </li>
+
+  <li>Explain why a parameter is undefined when a function call is missing a parameter.
+    <p>If an argument is not provided, JavaScript sets that parameter to undefined. You can handle this using default values (function f(x = 0) { ... }) or checks (if (x === undefined) ...).</p>
+  </li>
+
+  <li>Explain what happens when we use recursive functions.
+    <p>A recursive function calls itself. Each call creates a new stack frame with its own local variables. Recursion must have a base case to stop, otherwise it can cause infinite recursion / stack overflow.</p>
+  </li>
+</ol>
     <script type="module" src="./task_3-3.mjs" defer></script>
   </body>
 </html>
