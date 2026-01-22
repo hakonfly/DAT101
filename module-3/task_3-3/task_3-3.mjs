@@ -81,19 +81,26 @@ function printRectangleMeasurements(rect) {
 /** ---------- Part 5 (temperature conversion) ---------- */
 function convertTemperature(temp, type) {
   const t = String(type).trim().toLowerCase();
+    const value = Number(temp);
+
+      if (Number.isNaN(value)) {
+    printOut(`Invalid temperature: ${temp}`);
+    printOut(newLine);
+    return;
+  }
 
   let c, f, k;
 
   if (t === "c" || t === "celsius") {
-    c = temp;
+    c = value;
     k = c + 273.15;
     f = (c * 9) / 5 + 32;
   } else if (t === "f" || t === "fahrenheit") {
-    f = temp;
+    f = value;
     c = ((f - 32) * 5) / 9;
     k = c + 273.15;
   } else if (t === "k" || t === "kelvin") {
-    k = temp;
+    k = value;
     c = k - 273.15;
     f = (c * 9) / 5 + 32;
   } else {
@@ -103,7 +110,7 @@ function convertTemperature(temp, type) {
   }
 
   // Integers only
-  printOut(`Convert ${temp} ${type}`);
+  printOut(`Convert ${value} ${type}`);
   printOut(newLine);
   printOut(`Celsius = ${Math.round(c)}`);
   printOut(newLine);
@@ -113,207 +120,159 @@ function convertTemperature(temp, type) {
   printOut(newLine);
 }
 
-/** ---------- Part 6 (VAT) ---------- */
-function priceWithoutVAT(gross, vatGroupText) {
-  const group = String(vatGroupText).trim().toLowerCase();
-
-  let vat;
-  if (group === "normal") vat = 25;
-  else if (group === "food") vat = 15;
-  else if (group === "hotel" || group === "transport" || group === "cinema") vat = 10;
-  else {
-    printOut("Unknown VAT group!");
-    printOut(newLine);
-    return NaN;
-  }
-
-  const net = (100 * gross) / (vat + 100);
-  return net;
+// Hjelper: 2 desimaler når det er et tall, ellers "NaN"/"undefined"
+function fmt2(x) {
+  return Number.isFinite(x) ? x.toFixed(2) : String(x);
 }
 
-/** ---------- Part 7 (distance/time/speed) ---------- */
-function solveDistanceTimeSpeed(distance, time, speed) {
-  const missing =
-    (distance === undefined ? 1 : 0) +
-    (time === undefined ? 1 : 0) +
-    (speed === undefined ? 1 : 0);
+/* ----- Task 6 (VAT) ----- */
+function calcNetVAT(gross, group) {
+  const rates = {
+    normal: 0.25,
+    food: 0.15,
+    hotel: 0.1,
+  };
 
-  if (missing !== 1) return NaN;
+  const rate = rates[group];
+  if (rate === undefined) return undefined;
 
+  const g = Number(gross);
+  return g / (1 + rate);
+}
+
+printOut("----- Task 6 -----");
+
+let net = calcNetVAT(100, "normal");
+printOut(`100 is ${fmt2(net)} without tax`);
+
+net = calcNetVAT(150, "food");
+printOut(`150 is ${fmt2(net)} without tax`);
+
+net = calcNetVAT(50, "hotel");
+printOut(`50 is ${fmt2(net)} without tax`);
+
+// Ukjent gruppe skal gi eksakt melding (ikke "Gross ... => NaN")
+if (calcNetVAT(123, "Textile") === undefined) {
+  printOut("Textile is unknown tax-group!");
+}
+
+printOut(newLine);
+
+/* ----- Task 7 (SDT) ----- */
+// Merk: prioritet som gir samme oppførsel som eksempelet (inkl. NaN-caset)
+function calcSDT(speed, distance, time) {
+  let s = speed;
   let d = distance;
   let t = time;
-  let s = speed;
 
-  if (s === undefined) s = d / t;
-  else if (t === undefined) t = d / s;
-  else if (d === undefined) d = s * t;
+  // Hvis time mangler: t = d / s (gir NaN hvis s er undefined)
+  if (t === undefined) t = Number(d) / Number(s);
+  // Hvis distance mangler: d = s * t
+  else if (d === undefined) d = Number(s) * Number(t);
+  // Hvis speed mangler: s = d / t
+  else if (s === undefined) s = Number(d) / Number(t);
 
-  return { distance: d, time: t, speed: s };
+  return { speed: s, distance: d, time: t };
 }
 
-/** ---------- Part 8 (pad text) ---------- */
-function expandText(text, maxSize, ch, insertAfter) {
-  const str = String(text);
-  const maxLen = Number(maxSize);
-  const padChar = String(ch);
-
-  if (!Number.isFinite(maxLen) || maxLen < 0) return str;
-
-  if (str.length >= maxLen) return str;
-
-  const needed = maxLen - str.length;
-  const pad = padChar.repeat(needed);
-
-  return insertAfter ? str + pad : pad + str;
+function printSDT(speed, distance, time) {
+  const r = calcSDT(speed, distance, time);
+  printOut(`Speed = ${r.speed} km/h`);
+  printOut(`Distance = ${r.distance} km`);
+  printOut(`Time = ${fmt2(Number(r.time))} h`);
+  printOut(newLine);
 }
 
-/** ---------- Part 9 (math expression test) ---------- */
-function sumRange(a, b) {
-  // inclusive sum using arithmetic series
-  const n = b - a + 1;
-  return (n * (a + b)) / 2;
+printOut("----- Task 7 -----");
+
+printSDT(75, 50, undefined);
+printSDT(60, undefined, 2);
+printSDT(undefined, 105, 1.5);
+printSDT(undefined, 50, undefined);
+
+
+/* ----- Task 8 helper: padToMax ----- */
+function padToMax(text, maxLen, ch, padAfter) {
+  let s = String(text);
+  const target = Number(maxLen);
+  if (!Number.isFinite(target) || target < 0) return s;
+  const padChar = String(ch ?? " ").charAt(0) || " ";
+  while (s.length < target) {
+    s = padAfter ? (s + padChar) : (padChar + s);
+  }
+  return s;
+}
+printOut(newLine);
+/* ----- Task 8 (Pad string) ----- */
+printOut("----- Task 8 -----");
+
+const txt = "This is a text";
+printOut(`"${padToMax(txt, 30, " ", true)}"`);
+printOut(`"${padToMax(txt, 30, " ", false)}"`);
+
+printOut(newLine);
+
+/* ----- Task 9 (Math test) ----- */
+function makeMathLine(k) {
+  const start = k * k;
+
+  const left = [];
+  for (let i = 0; i < k + 1; i++) left.push(start + i);
+
+  const right = [];
+  for (let i = 0; i < k; i++) right.push(start + (k + 1) + i);
+
+  const lhs = left.reduce((a, b) => a + b, 0);
+  const rhs = right.reduce((a, b) => a + b, 0);
+
+  const leftStr = left.join(" ");
+  const rightStr = right.join(" ");
+
+  // 23 passer nøyaktig for k<=7 slik eksempelet viser
+  const width = 23;
+
+  const line =
+    `${padToMax(leftStr, width, " ", true)} = ` +
+    `${padToMax(rightStr, width, " ", false)}`;
+
+  return { line, lhs, rhs };
 }
 
-function rangeToString(a, b) {
-  const nums = [];
-  for (let i = a; i <= b; i++) nums.push(i);
-  return nums.join(" ");
-}
+function testMathExpression200Lines() {
+  for (let k = 1; k <= 200; k++) {
+    const { line, lhs, rhs } = makeMathLine(k);
 
-function testMathExpression(lines = 200) {
-  let start = 1;
-
-  for (let line = 1; line <= lines; line++) {
-    const leftCount = line + 1;
-    const rightCount = line;
-
-    const leftStart = start;
-    const leftEnd = start + leftCount - 1;
-
-    const rightStart = leftEnd + 1;
-    const rightEnd = rightStart + rightCount - 1;
-
-    const leftSum = sumRange(leftStart, leftEnd);
-    const rightSum = sumRange(rightStart, rightEnd);
-
-    // Print a few example lines (keeps output readable)
-    if (line <= 6) {
-      printOut(`${rangeToString(leftStart, leftEnd)} = ${rangeToString(rightStart, rightEnd)}`);
+    // Eksempelet viser 7 linjer
+    if (k <= 7) {
+      printOut(line);
       printOut(newLine);
     }
 
-    if (leftSum !== rightSum) {
-      printOut(`FAIL on line ${line}: leftSum=${leftSum}, rightSum=${rightSum}`);
+    if (lhs !== rhs) {
+      printOut(`FAILED at line ${k}`);
       printOut(newLine);
-      printOut(`Left:  ${rangeToString(leftStart, leftEnd)}`);
-      printOut(newLine);
-      printOut(`Right: ${rangeToString(rightStart, rightEnd)}`);
-      printOut(newLine);
-      return false;
+      return;
     }
-
-    start = rightEnd + 1; // next line starts after the last used number
   }
 
-  printOut("Maths fun!");
-  printOut(newLine);
-  return true;
+  printOut("Mathematics is fun!");
 }
 
-/** ---------- Part 10 (recursive factorial) ---------- */
+printOut("----- Task 9 -----");
+
+testMathExpression200Lines();
+
+printOut(newLine);
+
+/* ----- Task 10 (Factorial) ----- */
 function factorial(n) {
+  n = Number(n);
   if (!Number.isInteger(n) || n < 0) return NaN;
   if (n <= 1) return 1;
   return n * factorial(n - 1);
 }
 
-/** ================= RUN ALL PARTS ================= */
-header(1);
-printTodaysDateNorwegian();
+printOut("----- Task 10 -----");
 
-header(2);
-const todayObj = getTodaysDateObjectAndPrint();
-const daysLeft = daysUntil2XKO(todayObj);
-if (daysLeft >= 0) {
-  printOut(`Days until 2XKO release (May 14, 2025): ${daysLeft}`);
-} else {
-  printOut(`2XKO release date has passed (${Math.abs(daysLeft)} day(s) ago).`);
-}
-printOut(newLine);
-
-header(3);
-printCircleMeasurements(5);
-
-header(4);
-printRectangleMeasurements({ width: 4, height: 3 });
-
-header(5);
-convertTemperature(47, "Celsius");
-printOut(newLine);
-convertTemperature(100, "Fahrenheit");
-printOut(newLine);
-convertTemperature(300, "Kelvin");
-
-header(6);
-const net1 = priceWithoutVAT(100, "normal");
-if (!Number.isNaN(net1)) printOut(`100 is ${net1.toFixed(2)} without tax`);
-printOut(newLine);
-
-const net2 = priceWithoutVAT(150, "food");
-if (!Number.isNaN(net2)) printOut(`150 is ${net2.toFixed(2)} without tax`);
-printOut(newLine);
-
-const net3 = priceWithoutVAT(50, "cinema");
-if (!Number.isNaN(net3)) printOut(`50 is ${net3.toFixed(2)} without tax`);
-printOut(newLine);
-
-const net4 = priceWithoutVAT(80, "goblins");
-if (Number.isNaN(net4)) {
-  // already printed "Unknown VAT group!"
-}
-
-header(7);
-const r1 = solveDistanceTimeSpeed(50, 0.67, undefined);
-if (!Number.isNaN(r1)) {
-  printOut(`Speed = ${r1.speed.toFixed(2)} km/h`); printOut(newLine);
-  printOut(`Distance = ${r1.distance.toFixed(2)} km`); printOut(newLine);
-  printOut(`Time = ${r1.time.toFixed(2)} h`); printOut(newLine);
-}
-printOut(newLine);
-
-const r2 = solveDistanceTimeSpeed(120, undefined, 60);
-if (!Number.isNaN(r2)) {
-  printOut(`Speed = ${r2.speed.toFixed(2)} km/h`); printOut(newLine);
-  printOut(`Distance = ${r2.distance.toFixed(2)} km`); printOut(newLine);
-  printOut(`Time = ${r2.time.toFixed(2)} h`); printOut(newLine);
-}
-printOut(newLine);
-
-const r3 = solveDistanceTimeSpeed(undefined, 1.5, 70);
-if (!Number.isNaN(r3)) {
-  printOut(`Speed = ${r3.speed.toFixed(2)} km/h`); printOut(newLine);
-  printOut(`Distance = ${r3.distance.toFixed(2)} km`); printOut(newLine);
-  printOut(`Time = ${r3.time.toFixed(2)} h`); printOut(newLine);
-}
-printOut(newLine);
-
-const r4 = solveDistanceTimeSpeed(undefined, undefined, 50);
-if (Number.isNaN(r4)) {
-  printOut("More than one parameter is missing -> NaN");
-  printOut(newLine);
-}
-
-header(8);
-const s1 = expandText("This is a text", 25, " ", false);
-printOut(`\"${s1}\"`); printOut(newLine);
-
-const s2 = expandText("This is a text", 25, " ", true);
-printOut(`\"${s2}\"`); printOut(newLine);
-
-header(9);
-testMathExpression(200);
-
-header(10);
-const n = 9;
-printOut(`factorial(${n}) is ${factorial(n)}`);
+printOut(`factorial(9) is ${factorial(9)}`);
 printOut(newLine);
