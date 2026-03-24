@@ -6,12 +6,26 @@
   </head>
   <body style="display: table-cell; vertical-align: middle">
     <h2><label for="txtOut">Output from Task 4.1:</label></h2>
-    <div style="padding: 10px; min-width: 512px; border: darkblue thin solid; background-color: antiquewhite; font-family: 'Courier New', serif">
-      <span id="txtOut" style="white-space: nowrap"></span>
+    <div style="padding: 10px; min-width: 512px; border: darkblue thin solid; max-height: 420px; overflow: auto; background-color: antiquewhite; font-family: 'Courier New', serif">
+      <pre id="txtOut" style="margin: 0; white-space: pre-wrap"></pre>
     </div>
     <ol>
-      <li>[Write the question here, and copy this for more questions]</li>
-      <p>[Write your answer here, and copy this for more answers]</p>
+      <li>
+        Why is object-oriented development so important in programming?
+        <p>Object-oriented development helps us organise code around things we want to model, such as a bank account. This makes the program easier to understand, reuse, expand, and maintain when the system becomes larger.</p>
+      </li>
+      <li>
+        In Task 1, we create a static object called "AccountType." Explain what this object is used for and how this type of object can help us in software development.
+        <p>The <code>AccountType</code> object works as a shared collection of fixed values such as Normal, Saving, and Pension. This helps us avoid spelling mistakes, makes the code easier to read, and gives us one place to change the values if the program grows later.</p>
+      </li>
+      <li>
+        Discuss why we use encapsulation in classes. Why do we want to "hide" code within our class? Explain how we can create "private" and "public" members in a constructor function.
+        <p>We use encapsulation to protect important data and rules inside the class, so other code cannot change everything directly in unsafe ways. In a constructor function, public members are normally added with <code>this</code>, while private members can be created with local variables inside the function so they are only available through public methods.</p>
+      </li>
+      <li>
+        Explain what happens when we use the "new" command in JavaScript.
+        <p>When we use <code>new</code>, JavaScript creates a new object, connects it to the class or constructor prototype, sets <code>this</code> to that new object, runs the constructor code, and returns the finished instance.</p>
+      </li>
     </ol>
     <script type="module" src="./task_4-1.mjs" defer></script>
   </body>
