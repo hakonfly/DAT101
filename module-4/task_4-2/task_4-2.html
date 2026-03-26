@@ -6,12 +6,42 @@
   </head>
   <body style="display: table-cell; vertical-align: middle">
     <h2><label for="txtOut">Output from Task 4.2:</label></h2>
-    <div style="padding: 10px; min-width: 512px; border: darkblue thin solid; background-color: antiquewhite; font-family: 'Courier New', serif">
-      <span id="txtOut" style="white-space: nowrap"></span>
+    <div style="padding: 10px; min-width: 512px; border: darkblue thin solid; max-height: 420px; overflow: auto; background-color: antiquewhite; font-family: 'Courier New', serif">
+      <pre id="txtOut" style="margin: 0; white-space: pre-wrap"></pre>
     </div>
     <ol>
-      <li>[Write the question here, and copy this for more questions]</li>
-      <p>[Write your answer here, and copy this for more answers]</p>
+      <li>
+        What is an array?
+        <p>An array is an ordered list of values stored in one variable. Each element has an index, so we can read or change values by their position.</p>
+      </li>
+      <li>
+        What does it mean to "hardcode" when we talk about programming?
+        <p>Hardcoding means writing the values directly into the source code instead of reading them from input, a file, or a database. It is useful for simple examples, tests, and fixed values.</p>
+      </li>
+      <li>
+        Explain in plain text what happens in task 3, and how we can traverse the array when we do not know how long the array is.
+        <p>In task 3, the text is split into separate words so that each word becomes one element in an array. We can then loop through the array with a condition based on <code>array.length</code>, so the loop stops automatically at the last element even if we did not know the size beforehand.</p>
+      </li>
+      <li>
+        Why is it beneficial to store instances of a class in arrays, as in task 4?
+        <p>It is useful because many objects of the same type can be collected in one place and handled with the same loop or logic. That makes it easier to print, search, sort, update, or remove objects without writing separate code for each instance.</p>
+      </li>
+      <li>
+        Try your best to explain the EWeekDays object from task 7. How do we use the value attribute, for example? In what way do WeekDay, Workdays, and Weekends differ from each other? If we wanted to create a new element "WorkoutDays", which would contain "Monday", "Wednesday", and "Thursday", how would it ideally look?
+        <p>The <code>EWeekDays</code> object is a static object that stores named weekday elements. The single weekdays have one value each, while <code>Workdays</code> and <code>Weekends</code> combine several weekday values into one larger value. A possible extra element could look like <code>WorkoutDays: { value: 0x01 + 0x04 + 0x08, name: "Workout days" }</code>.</p>
+      </li>
+      <li>
+        In task 8, we will use a callback routine when sorting. Explain how such a callback routine works.
+        <p>A callback routine is a function we pass into another function so that the other function can use it while it runs. In sorting, the callback receives two elements and returns a value that tells JavaScript which element should come first.</p>
+      </li>
+      <li>
+        What happens in the sorting routines you have created? Try to explain how the array can figure out if an element should come before or after another.
+        <p>The sort method compares two elements at a time by calling the callback function. If the callback returns a negative value, the first element moves before the second; if it returns a positive value, it moves after; and if it returns zero, the order between those two elements stays unchanged.</p>
+      </li>
+      <li>
+        In task 10, we will create an array with rows and columns. Explain what the first element of the array contains.
+        <p>The first element of the outer array contains the first row. That row is itself an array, so its first element is the text stored in the first cell, and the rest of the row contains the remaining columns.</p>
+      </li>
     </ol>
     <script type="module" src="./task_4-2.mjs" defer></script>
   </body>
